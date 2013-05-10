@@ -1,0 +1,68 @@
+<!DOCTYPE html >
+<html>
+<head>
+<title>NodeRTC</title>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var pc;
+var socket = io.connect();
+var configuration = { "iceServers": [{ "url": "stun:23.21.150.121" }] };
+
+socket.on( 'start', function () {
+
+    var name = prompt("Name");
+    socket.emit( 'setname', name );
+
+    var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+    var RTCI = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+    pc = new RTCPeerConnection( configuration );
+
+    pc.onicecandidate = function (evt) {
+		console.log( "onicecandidate" );
+		console.log( evt );
+		if( evt.candidate ) {
+			socket.emit( 'icecandidate', evt.candidate );
+		}
+    };
+
+    pc.onaddstream = function (evt) {
+		var element = document.getElementById( 'stream' );
+		element.src = webkitURL.createObjectURL( evt.stream );
+    };
+
+	pc.onopen = function (evt) {
+		console.log( "onopen" );
+	}
+
+	pc.onremovestream = function (evt) {
+		console.log( "onremovestream" );
+	}
+
+	socket.on( 'icecandidate', function( candidate ) {
+		pc.addIceCandidate( new RTCIceCandidate( candidate ) );
+	});
+
+	socket.on( 'answer', function( evt ) {
+		var answer = new RTCSessionDescription( evt );
+		pc.setRemoteDescription( answer );
+	});
+
+    navigator.getUserMedia({ "audio": true }, function (stream) {
+        pc.addStream( stream );
+        pc.createOffer( function( desc ) {
+            pc.setLocalDescription( desc );
+            socket.emit( 'call', desc );
+        });
+
+    });
+
+});
+
+</script>
+</head>
+<body>
+<video id="stream" autoplay="autoplay">
+</body>
+</html>
