@@ -15,3 +15,7 @@ Dependencies
 * [node-celt][] for Celt encoding
 * [peerconnection][] for Node.js WebRTC implementation
 
+[node-mumble]: https://github.com/Rantanen/node-mumble
+[node-celt]: https://github.com/Rantanen/node-celt
+[peerconnection]: https://github.com/Rantanen/peerconnection
+
