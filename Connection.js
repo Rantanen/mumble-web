@@ -1,6 +1,6 @@
 
 var fs = require('fs');
-var mumble = require('../node-mumble');
+var mumble = require('mumble');
 var PeerConnection = require('../peerconnection').PeerConnection;
 
 var Connection = function( socket ) {
