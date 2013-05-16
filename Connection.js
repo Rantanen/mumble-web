@@ -1,4 +1,6 @@
 
+"use strict";
+
 var fs = require('fs');
 var mumble = require('mumble');
 var PeerConnection = require('../peerconnection').PeerConnection;
@@ -15,7 +17,7 @@ var Connection = function( socket ) {
 
 Connection.prototype.setName = function( name ) {
     this.name = name;
-}
+};
 
 Connection.prototype.onCall = function( sdp ) {
     var self = this;
@@ -24,11 +26,9 @@ Connection.prototype.onCall = function( sdp ) {
     var c = new PeerConnection();
     this.peerConnection = c;
 
-    var tlsoptions = null;
-    var tlsoptions = {
-    };
+    var options = {};
 
-    mumble.connect( process.env.MUMBLE_ADDR, 64738, tlsoptions, function( err, mumbleConn ) {
+    mumble.connect( process.env.MUMBLE_ADDR, 64738, options, function( err, mumbleConn ) {
         mumbleConn.authenticate( self.name );
         mumbleConn.on( 'initialized', function () {
             self.mumble = mumbleConn;

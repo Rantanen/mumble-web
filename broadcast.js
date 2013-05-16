@@ -1,4 +1,6 @@
 
+"use strict";
+
 var mumble = require('mumble');
 var EventEmitter = require('events').EventEmitter;
 
@@ -44,13 +46,13 @@ exports.broadcast_mp3 = function( path, req, res ) {
     res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
     var lame = child_process.spawn( 'lame', [ '-r', '-s', '48', '-m', 'm', '-', '-' ] );
     exports.broadcast( path, req, res, lame );
-}
+};
 
 exports.broadcast_vorbis = function( path, req, res ) {
     res.writeHead(200, { 'Content-Type': 'audio/vorbis' });
     var ogg = child_process.spawn( 'oggenc', [ '-r', '-R', '48000', '-C', '1', '-' ] );
     exports.broadcast( path, req, res, ogg );
-}
+};
 
 exports.broadcast = function( path, req, res, encoder ) {
     getStream( path, function( err, stream ) {
@@ -59,4 +61,4 @@ exports.broadcast = function( path, req, res, encoder ) {
         stream.pipe( encoder.stdin );
         encoder.stdout.pipe( res );
     });
-}
+};
