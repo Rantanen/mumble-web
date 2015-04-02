@@ -8,6 +8,8 @@ Two-way voice communication works.
 
 UI does not exist.
 
+peerconnection library is prolly completely broken by now thanks to Google's changes to their libraries.
+
 Dependencies
 ------------
 
@@ -19,5 +21,5 @@ Dependencies
 [node-mumble]: https://github.com/Rantanen/node-mumble
 [node-celt]: https://github.com/Rantanen/node-celt
 [node-jitterbuffer]: https://github.com/Rantanen/node-jitterbuffer
-[peerconnection]: https://github.com/Rantanen/peerconnection
+[node-peerconnection]: https://github.com/Rantanen/node-peerconnection
 
